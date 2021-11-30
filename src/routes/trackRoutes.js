@@ -32,4 +32,15 @@ router.post('/tracks', async (req, res) => {
   }
 });
 
+router.delete('/tracks/:id', async (req, res) => { 
+  const { id } = req.params;
+  const track = Track.findById(id);
+  if (track) {
+    await track.deleteOne();
+    res.status(204);
+  } else { 
+    res.status(404);
+  }
+});
+
 module.exports = router;
