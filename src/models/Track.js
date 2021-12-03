@@ -20,7 +20,23 @@ const trackSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
-  locations: [pointSchema]
+  locations: [pointSchema], 
+  dateSaved: {
+    type: String, 
+    default: ''
+  }, 
+  timeSaved: {
+    type: String,
+    default: ''
+  }, 
+  seconds: {
+    type: Number, 
+    default: null
+  },
+  minutes: {
+    type: Number, 
+    default: null
+  }
 });
 
 mongoose.model('Track', trackSchema);
