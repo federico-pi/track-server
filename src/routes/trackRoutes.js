@@ -15,32 +15,34 @@ router.get('/tracks', async (req, res) => {
 });
 
 router.post('/tracks', async (req, res) => {
-  const { name, locations, dateSaved, timeSaved, seconds, minutes } = req.body;
+  const { name, locations, date, seconds, minutes } = req.body;
 
   if (!name || !locations) {
     return res
       .status(422)
       .send({ error: 'You must provide a name, a date, and locations' });
-  }
+  };
 
   try {
-    const track = new Track({ name, locations, dateSaved, timeSaved, seconds, minutes, userId: req.user._id });
+    const track = new Track({ name, locations, date, seconds, minutes, userId: req.user._id });
     await track.save();
     res.send(track);
   } catch (err) {
     res.status(422).send({ error: err.message });
-  }
+  };
 });
 
 router.delete('/tracks/:id', async (req, res) => { 
   const { id } = req.params;
   const track = Track.findById(id);
-  if (track) {
+
+  try { 
     await track.deleteOne();
     res.status(204);
-  } else { 
+  } catch (err) {
     res.status(404);
-  }
+    console.log(err)
+  };
 });
 
 module.exports = router;
